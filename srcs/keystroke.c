@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 21:52:51 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 03:46:26 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/31 05:42:16 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,27 @@ t_option	*get_last(t_option *list)
 	list = origin;
 	return (last);
 }
-
+void	move_search_cursor(t_env *env)
+{
+	if ((*env).search.list->opt)
+	{
+		(*env).cursor->hover = 0;
+		if ((*env).search.list->next->opt == 0)
+		{
+			if ((*env).search.list->origin != 0)
+			{
+				(*env).search.list = (*env).search.list->origin;
+				(*env).cursor = (*env).search.list->opt;
+			}
+		}
+		else
+		{
+			(*env).cursor = (*env).search.list->next->opt;
+			(*env).search.list = (*env).search.list->next;
+		}
+		(*env).cursor->hover = 1;
+	}
+}
 void	move_cursor(int dir, t_env *env)
 {
 	t_option	*last;
@@ -40,6 +60,8 @@ void	move_cursor(int dir, t_env *env)
 			(*env).cursor = (*env).cursor->next;
 		(*env).cursor->hover = 1;
 	}
+	else if (dir == 2)
+		move_search_cursor(env);
 	else
 	{
 		(*env).cursor->hover = 0;
@@ -52,6 +74,10 @@ void	move_cursor(int dir, t_env *env)
 }
 void		escape_search(char *buf, t_env *env)
 {
+	if (buf[2] == 'C')
+		move_cursor(2, env);
+	if (buf[2] == 'B')
+		move_cursor(2, env);
 	if (buf[2] == 0)
 	{
 		if ((*env).search.enable == 1)

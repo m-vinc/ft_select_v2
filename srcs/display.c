@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 20:04:58 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 02:44:05 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/31 05:20:05 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,6 @@ t_sz		getsz()
 	ws.row = w.ws_row;
 	return (ws);
 }
-void	display_word(t_env env)
-{
-	int		x;
-
-	x = 0;
-	while (env.item->data[x] != '\0')
-	{
-		if (x < env.item->finded)
-			ft_putstr_fd("\033[0;32m", 0);
-		ft_putchar_fd(env.item->data[x], 0);
-		if (x < env.item->finded)
-			ft_putstr_fd("\033[0m", 0);
-		x++;
-	}
-}
 void	display_detail(t_env env, t_sz sz, int *y)
 {
 	tputs(tgoto(tgetstr("cm", 0), sz.col / 3, *y), 1, my_out);
@@ -44,7 +29,7 @@ void	display_detail(t_env env, t_sz sz, int *y)
 		tputs(tgetstr("us", 0), 1, my_out);
 	if (env.item->selected == 1)
 		tputs(tgetstr("mr", 0), 1, my_out);
-	display_word(env);
+	ft_putstr_fd(env.item->data, 0);
 	if (env.item->hover == 1 || env.item->selected == 1)
 		tputs(tgetstr("me", 0), 1, my_out);
 	*y += 1;

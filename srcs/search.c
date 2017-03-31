@@ -6,16 +6,46 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 22:42:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 03:34:23 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/31 05:23:44 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-//void	search_move(char *buf, t_env *env)
-//{
-	
-//}
+void	place_search_cursor(t_env *env)
+{
+	if ((*env).search.list->opt != 0)
+	{
+		(*env).cursor->hover = 0;
+		(*env).cursor = (*env).search.list->opt;
+		(*env).cursor->hover = 1;
+	}
+}
+void	search_create(t_env *env)
+{
+	t_sopt		*node;
+	t_sopt		*head;
+	t_option	*save;
+
+	if ((*env).search.list != 0)
+		free_sopt(env);
+	node = sopt_initializer(0);
+	head = node;
+	save = (*env).item;
+	while ((*env).item->next && (*env).item->data)
+	{
+		if ((*env).item->finded > 0)
+		{
+			node->opt = (*env).item;
+			node->next = sopt_initializer(head);
+			node = node->next;
+		}
+		(*env).item = (*env).item->next;
+	}
+	(*env).item = save;
+	(*env).search.list = head;
+	place_search_cursor(env);
+}
 
 void	search_reset(t_env *env)
 {
@@ -63,9 +93,7 @@ void	search_find(t_env *env)
 		while ((*env).item->data[x] != '\0' &&
 				(*env).search.str[x] == (*env).item->data[x])
 			x++;
-		if (((*env).item->data[x] != '\0' && (*env).search.str[x] == '\0') ||
-				((*env).item->data[x] != '\0') || ((*env).item->data[x] == '\0' &&
-					(*env).search.str[x] == '\0'))
+		if ((*env).search.str[x] == '\0')
 			(*env).item->finded = x;
 		else
 			(*env).item->finded = 0;
@@ -73,6 +101,7 @@ void	search_find(t_env *env)
 		(*env).item = (*env).item->next;
 	}
 	(*env).item = origin;
+	search_create(env);
 }
 void	search_add(t_env *env, char *buf)
 {
@@ -89,6 +118,7 @@ void	search_add(t_env *env, char *buf)
 	{
 		(*env).search.str = ft_strdup("\0");
 		(*env).search.str = ft_strjoinf((*env).search.str, carac);
+		free(carac);
 	}
 	search_find(env);
 }
