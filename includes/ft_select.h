@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:15:20 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 05:12:00 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 04:12:18 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct	s_sz
 	int	col;
 	int	row;
 }				t_sz;
-
 t_option	*create_list(int ac, char **av);
 t_option	*option_initializer();
 t_sopt		*sopt_initializer(t_sopt *origin);
@@ -73,11 +72,13 @@ t_env		env_initializer();
 void		enter_dmode();
 int			init_term(t_env *env);
 t_env		get_max(t_env env);
+t_option	*get_last(t_option *list);
 void		display(t_env env);
 void		display_detail(t_env env, t_sz sz, int *y);
 void		display_word(t_env env);
 int			my_out(int c);
 void		h_keystroke(t_env *env);
+void		place_search_cursor(t_env *env);
 void		search_add(t_env *env, char *buf);
 void		search_backspace(t_env *env);
 void		search_find(t_env *env);
@@ -86,4 +87,11 @@ void		search_create(t_env *env);
 char		*ft_strjoinf(char *one, char *two);
 t_option	*remove_option(t_option *save, char *data);
 void		w_exit(t_env *env);
+void		select_cursor(t_env *env);
+void		move_cursor(int dir, t_env *env);
+void		move_search_cursor(t_env *env);
+t_env		*get_env();
+void		handle_signal();
+void		sig_handler(int n);
+void		submit(t_env *env);
 #endif

@@ -6,15 +6,15 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 19:43:30 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 03:08:01 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 04:19:14 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_env		get_max(t_env env)
+t_env				get_max(t_env env)
 {
-	t_option 	*origin;
+	t_option	*origin;
 	int			mrow;
 	int			mcol;
 	int			tmp;
@@ -23,7 +23,7 @@ t_env		get_max(t_env env)
 	mcol = 0;
 	mrow = 0;
 	origin = env.item;
-	while(env.item->next && env.item->data)
+	while (env.item->next && env.item->data)
 	{
 		mrow++;
 		if ((tmp = ft_strlen(env.item->data)) > mcol)
@@ -35,7 +35,8 @@ t_env		get_max(t_env env)
 	env.item = origin;
 	return (env);
 }
-t_option	*remove_option(t_option *save, char *data)
+
+t_option			*remove_option(t_option *save, char *data)
 {
 	t_option *onext;
 
@@ -62,7 +63,8 @@ t_option	*remove_option(t_option *save, char *data)
 	save->next = remove_option(save->next, data);
 	return (save);
 }
-t_option	*option_initializer()
+
+t_option			*option_initializer(void)
 {
 	t_option *element;
 
@@ -77,7 +79,7 @@ t_option	*option_initializer()
 	return (element);
 }
 
-t_option	*create_list(int ac, char **av)
+t_option			*create_list(int ac, char **av)
 {
 	t_option	*head;
 	t_option	*node;
@@ -98,7 +100,8 @@ t_option	*create_list(int ac, char **av)
 	}
 	return (head);
 }
-void		delete_list(t_env *env)
+
+void				delete_list(t_env *env)
 {
 	(*env).item = remove_option((*env).item, (*env).cursor->data);
 	(*env).cursor = (*env).cursor->next;

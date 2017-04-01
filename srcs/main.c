@@ -6,13 +6,13 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 19:06:41 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 04:14:59 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 04:21:36 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	enter_dmode()
+void		enter_dmode(void)
 {
 	struct termios term;
 
@@ -22,9 +22,10 @@ void	enter_dmode()
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return ;
+	tputs(tgetstr("vi", 0), 1, my_out);
 }
 
-int		init_term(t_env *env)
+int			init_term(t_env *env)
 {
 	char	*estr;
 
@@ -50,39 +51,49 @@ int		init_term(t_env *env)
 	}
 	return (1);
 }
-t_env	env_initializer()
+
+t_env		env_initializer(void)
 {
 	t_env	env;
 
 	env.search.str = 0;
 	env.search.enable = 0;
+	env.search.list = 0;
 	env.cursor = 0;
 	env.max_row = 0;
 	env.max_row = 0;
 	env.item = 0;
 	return (env);
 }
-int main(int ac, char **av)
-{
-	t_env	env;
 
-	env = env_initializer();
-	if (init_term(&env) == -1)
+t_env		*get_env(void)
+{
+	static t_env	env;
+
+	return (&env);
+}
+
+int			main(int ac, char **av)
+{
+	t_env	*env;
+
+	handle_signal();
+	env = get_env();
+	*env = env_initializer();
+	if (init_term(env) == -1)
 		return (-1);
 	if (ac > 1)
 	{
-		tputs(tgetstr("vi", 0), 1, my_out);
-		env.item = create_list(ac, av);
-		env.cursor = env.item;
-		display(env);
+		env->item = create_list(ac, av);
+		env->cursor = env->item;
+		display(*env);
 		enter_dmode();
 		while (1)
 		{
-			if (env.item->data == 0)
-				w_exit(&env);
-			h_keystroke(&env);
-			display(env);
+			if (env->item->data == 0)
+				w_exit(env);
+			h_keystroke(env);
+			display(*env);
 		}
 	}
 }
-

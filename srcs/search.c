@@ -6,21 +6,12 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 22:42:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 05:23:44 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 04:13:03 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	place_search_cursor(t_env *env)
-{
-	if ((*env).search.list->opt != 0)
-	{
-		(*env).cursor->hover = 0;
-		(*env).cursor = (*env).search.list->opt;
-		(*env).cursor->hover = 1;
-	}
-}
 void	search_create(t_env *env)
 {
 	t_sopt		*node;
@@ -52,7 +43,6 @@ void	search_reset(t_env *env)
 	t_option	*origin;
 
 	origin = (*env).item;
-
 	while ((*env).item->next && (*env).item->data)
 	{
 		(*env).item->finded = 0;
@@ -81,6 +71,7 @@ void	search_backspace(t_env *env)
 			search_find(env);
 	}
 }
+
 void	search_find(t_env *env)
 {
 	int			x;
@@ -103,6 +94,7 @@ void	search_find(t_env *env)
 	(*env).item = origin;
 	search_create(env);
 }
+
 void	search_add(t_env *env, char *buf)
 {
 	char	*carac;

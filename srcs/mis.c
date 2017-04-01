@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 20:53:50 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 05:11:32 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 04:22:34 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void	free_sopt(t_env *env)
 	{
 		tmp = (*env).search.list;
 		(*env).search.list = (*env).search.list->next;
-		free(tmp);
+		if (tmp)
+			free(tmp);
 	}
 }
+
 t_sopt	*sopt_initializer(t_sopt *origin)
 {
 	t_sopt	*new;
@@ -39,6 +41,7 @@ int		my_out(int c)
 {
 	return (write(0, &c, 1));
 }
+
 char	*ft_strjoinf(char *one, char *two)
 {
 	char *tmp;
@@ -53,7 +56,9 @@ void	w_exit(t_env *env)
 	t_option	*save;
 
 	tputs(tgetstr("ve", 0), 1, my_out);
-	tcsetattr(0, TCSADRAIN, &(*env).default_settings);
+	tputs(tgetstr("cl", 0), 1, my_out);
+	if (tcsetattr(0, TCSADRAIN, &(*env).default_settings) != 0)
+		ft_putendl_fd("error", 2);
 	while ((*env).item)
 	{
 		if ((*env).item->data)
@@ -64,5 +69,5 @@ void	w_exit(t_env *env)
 	}
 	if ((*env).search.str)
 		free((*env).search.str);
-	exit(0);	
+	exit(0);
 }

@@ -6,25 +6,13 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 21:52:51 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 05:42:16 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 04:14:51 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_option	*get_last(t_option *list)
-{
-	t_option 	*origin;
-	t_option	*last;
-
-	origin = list;
-	while (list->next->data)
-		list = list->next;
-	last = list;
-	list = origin;
-	return (last);
-}
-void	move_search_cursor(t_env *env)
+void		move_search_cursor(t_env *env)
 {
 	if ((*env).search.list->opt)
 	{
@@ -45,12 +33,12 @@ void	move_search_cursor(t_env *env)
 		(*env).cursor->hover = 1;
 	}
 }
-void	move_cursor(int dir, t_env *env)
+
+void		move_cursor(int dir, t_env *env)
 {
 	t_option	*last;
 
 	last = get_last((*env).item);
-	//1 = en bas -> 0 en haut
 	if (dir == 1)
 	{
 		(*env).cursor->hover = 0;
@@ -72,6 +60,7 @@ void	move_cursor(int dir, t_env *env)
 		(*env).cursor->hover = 1;
 	}
 }
+
 void		escape_search(char *buf, t_env *env)
 {
 	if (buf[2] == 'C')
@@ -92,6 +81,7 @@ void		escape_search(char *buf, t_env *env)
 		}
 	}
 }
+
 void		escape(char *buf, t_env *env)
 {
 	if (buf[2] == 'C')
@@ -113,10 +103,12 @@ void		escape(char *buf, t_env *env)
 				(*env).search.str = 0;
 			}
 		}
+		else
+			w_exit(env);
 	}
 }
 
-void	h_keystroke(t_env *env)
+void		h_keystroke(t_env *env)
 {
 	char	buf[3];
 
@@ -130,15 +122,16 @@ void	h_keystroke(t_env *env)
 				escape_search(buf, env);
 		}
 		else if (buf[0] == 127)
-		{
 			if ((*env).search.enable == 1)
-			{
 				search_backspace(env);
-			}
 			else
 				delete_list(env);
-		}
-		else
+		else if (((buf[0] == ' ' && (*env).search.enable == 0)) ||
+				(buf[0] == 24))
+			select_cursor(env);
+		else if (buf[0] == 10 && (*env).search.enable == 0)
+			submit(env);
+		else if (ft_isprint(buf[0]))
 			search_add(env, buf);
 	}
 }

@@ -6,15 +6,15 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 20:04:58 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/31 05:20:05 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 04:16:52 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_sz		getsz()
+t_sz	getsz(void)
 {
-	struct	winsize	w;
+	struct winsize	w;
 	t_sz			ws;
 
 	ioctl(0, TIOCGWINSZ, &w);
@@ -22,6 +22,7 @@ t_sz		getsz()
 	ws.row = w.ws_row;
 	return (ws);
 }
+
 void	display_detail(t_env env, t_sz sz, int *y)
 {
 	tputs(tgoto(tgetstr("cm", 0), sz.col / 3, *y), 1, my_out);
@@ -34,6 +35,7 @@ void	display_detail(t_env env, t_sz sz, int *y)
 		tputs(tgetstr("me", 0), 1, my_out);
 	*y += 1;
 }
+
 void	display_searchbar(t_env env, t_sz sz)
 {
 	tputs(tgoto(tgetstr("cm", 0), 0, sz.row), 1, my_out);
@@ -43,6 +45,7 @@ void	display_searchbar(t_env env, t_sz sz)
 		ft_putstr_fd(env.search.str, 0);
 	tputs(tgetstr("me", 0), 1, my_out);
 }
+
 void	display(t_env env)
 {
 	t_sz		sz;
@@ -56,7 +59,7 @@ void	display(t_env env)
 	sz = getsz();
 	env = get_max(env);
 	tputs(tgetstr("cl", 0), 1, my_out);
-	if (env.max_col > sz.col / 3 + 2)
+	if (env.max_col > sz.col / 3 + 2 || env.max_row > sz.row - 1)
 		ft_putstr_fd("resize pls", 0);
 	else
 	{
