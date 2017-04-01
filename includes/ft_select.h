@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:15:20 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 04:12:18 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 18:48:31 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_option	*get_last(t_option *list);
 void		display(t_env env);
 void		display_detail(t_env env, t_sz sz, int *y);
 void		display_word(t_env env);
+void		display_searchbar(t_env, t_sz sz);
+void		display_col(t_env env, t_sz sz, int *position);
 int			my_out(int c);
 void		h_keystroke(t_env *env);
 void		place_search_cursor(t_env *env);
@@ -94,4 +96,5 @@ t_env		*get_env();
 void		handle_signal();
 void		sig_handler(int n);
 void		submit(t_env *env);
+int			get_row_usage(t_env *env, t_sz);
 #endif

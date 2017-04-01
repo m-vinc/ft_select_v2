@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 20:04:58 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 04:16:52 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 19:11:20 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ void	display_searchbar(t_env env, t_sz sz)
 	tputs(tgetstr("me", 0), 1, my_out);
 }
 
+void	no_needed_row(t_sz sz, t_env *env, int *position)
+{
+	int		row_usage;
+
+	if ((*env).max_col > sz.col / 3 + 2)
+		ft_putendl_fd("resize pls", 0);
+	else if ((*env).max_row > sz.row - 1)
+	{
+		row_usage = get_row_usage(env, sz);
+		if (row_usage < ((sz.row - 1) * sz.col))
+			display_col(*env, sz, position);
+		else
+			ft_putendl_fd("resize plz :(", 0);
+	}
+}
+
 void	display(t_env env)
 {
 	t_sz		sz;
@@ -60,7 +76,7 @@ void	display(t_env env)
 	env = get_max(env);
 	tputs(tgetstr("cl", 0), 1, my_out);
 	if (env.max_col > sz.col / 3 + 2 || env.max_row > sz.row - 1)
-		ft_putstr_fd("resize pls", 0);
+		no_needed_row(sz, &env, &y);
 	else
 	{
 		while (env.item->next && env.item->data)

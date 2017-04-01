@@ -1,4 +1,4 @@
-CFILE= srcs/keystroke_1.c srcs/submit.c srcs/list_1.c  srcs/signal.c srcs/display.c srcs/mis.c srcs/main.c srcs/list.c srcs/keystroke.c srcs/search.c srcs/select.c
+CFILE= srcs/mis_1.c srcs/keystroke_1.c srcs/submit.c srcs/list_1.c  srcs/signal.c srcs/display.c srcs/mis.c srcs/main.c srcs/list.c srcs/keystroke.c srcs/search.c srcs/select.c
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m

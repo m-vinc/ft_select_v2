@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 22:42:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 04:13:03 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 17:04:24 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	search_add(t_env *env, char *buf)
 	char	*carac;
 
 	(*env).search.enable = 1;
+	if (buf[0] == '\x06')
+		buf[0] = 0;
 	carac = ft_strsub(buf, 0, 1);
 	if ((*env).search.str)
 	{

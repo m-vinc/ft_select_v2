@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 21:52:51 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 04:14:51 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/01 17:02:45 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void		h_keystroke(t_env *env)
 			select_cursor(env);
 		else if (buf[0] == 10 && (*env).search.enable == 0)
 			submit(env);
-		else if (ft_isprint(buf[0]))
+		else if (ft_isprint(buf[0]) || buf[0] == 6)
 			search_add(env, buf);
 	}
 }
