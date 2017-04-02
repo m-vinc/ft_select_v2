@@ -6,12 +6,12 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:15:20 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 18:48:31 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/02 01:53:24 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SELECT
-# define FT_SELECT
+#ifndef FT_SELECT_H
+# define FT_SELECT_H
 # include <unistd.h>
 # include "../libft/libft.h"
 # include <termios.h>
@@ -19,6 +19,12 @@
 # include <term.h>
 # include <curses.h>
 # include <signal.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <time.h>
+# include <grp.h>
+# include <pwd.h>
+# include <uuid/uuid.h>
 # define RIGHT_ARROW 'C'
 # define LEFT_ARROW 'D'
 # define DOWN_ARROW 'B'
@@ -36,7 +42,7 @@ typedef struct	s_option
 
 typedef struct	s_sopt
 {
-	t_option 		*opt;
+	t_option		*opt;
 	struct s_sopt	*origin;
 	struct s_sopt	*next;
 }				t_sopt;
@@ -74,9 +80,9 @@ int			init_term(t_env *env);
 t_env		get_max(t_env env);
 t_option	*get_last(t_option *list);
 void		display(t_env env);
-void		display_detail(t_env env, t_sz sz, int *y);
+void		display_detail(t_env env, int *y);
 void		display_word(t_env env);
-void		display_searchbar(t_env, t_sz sz);
+void		display_searchbar(t_env env, t_sz sz);
 void		display_col(t_env env, t_sz sz, int *position);
 int			my_out(int c);
 void		h_keystroke(t_env *env);
@@ -96,5 +102,17 @@ t_env		*get_env();
 void		handle_signal();
 void		sig_handler(int n);
 void		submit(t_env *env);
-int			get_row_usage(t_env *env, t_sz);
+int			get_row_usage(t_env *env, t_sz sz);
+void		infomark(t_env *env);
+void		showfirst(struct stat info, char **f);
+void		showright(struct stat info, char **f);
+void		shownumberinfo(struct stat info, char **f);
+void		showtime(struct stat info, char **f);
+void		show_info(struct stat info, t_env *env);
+void		addtime(char **time, char **f);
+void		print_info(t_env *env);
+t_sz		getsz();
+void		show_info(struct stat info, t_env *env);
+void		no_needed_row(t_sz sz, t_env *env, int *position);
+void		build_strinfo(struct stat info, char **strinfo);
 #endif

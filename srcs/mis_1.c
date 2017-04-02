@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 17:38:37 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 19:12:27 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/02 01:19:34 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void				display_col(t_env env, t_sz sz, int *position)
 	tputs(tgetstr("cl", 0), 1, my_out);
 	while (env.item->next && env.item->data)
 	{
-		if (env.item->hover == 1)
+		if (env.item->hover >= 1)
 			tputs(tgetstr("us", 0), 1, my_out);
 		if (env.item->selected == 1)
 			tputs(tgetstr("mr", 0), 1, my_out);
 		if (*position + (int)ft_strlen(env.item->data) > sz.col)
 			print_lf(position);
 		ft_putstr_fd(env.item->data, 0);
-		if (env.item->hover == 1 || env.item->selected == 1)
+		if (env.item->hover >= 1 || env.item->selected == 1)
 			tputs(tgetstr("me", 0), 1, my_out);
 		if (env.item->next && env.item->data)
 			print_space(position);

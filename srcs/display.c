@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 20:04:58 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 19:11:20 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/02 01:25:45 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,17 @@ t_sz	getsz(void)
 	return (ws);
 }
 
-void	display_detail(t_env env, t_sz sz, int *y)
+void	display_detail(t_env env, int *y)
 {
-	tputs(tgoto(tgetstr("cm", 0), sz.col / 3, *y), 1, my_out);
-	if (env.item->hover == 1)
+	tputs(tgoto(tgetstr("cm", 0), 0, *y), 1, my_out);
+	if (env.item->hover >= 1)
 		tputs(tgetstr("us", 0), 1, my_out);
 	if (env.item->selected == 1)
 		tputs(tgetstr("mr", 0), 1, my_out);
 	ft_putstr_fd(env.item->data, 0);
-	if (env.item->hover == 1 || env.item->selected == 1)
+	if (env.item->hover == 2)
+		print_info(&env);
+	if (env.item->hover >= 1 || env.item->selected == 1)
 		tputs(tgetstr("me", 0), 1, my_out);
 	*y += 1;
 }
@@ -75,13 +77,13 @@ void	display(t_env env)
 	sz = getsz();
 	env = get_max(env);
 	tputs(tgetstr("cl", 0), 1, my_out);
-	if (env.max_col > sz.col / 3 + 2 || env.max_row > sz.row - 1)
+	if (env.max_col > sz.col + 2 || env.max_row > sz.row - 1)
 		no_needed_row(sz, &env, &y);
 	else
 	{
 		while (env.item->next && env.item->data)
 		{
-			display_detail(env, sz, &y);
+			display_detail(env, &y);
 			env.item = env.item->next;
 		}
 		env.item = save;

@@ -6,7 +6,7 @@
 #    By: vmorvan <vmorvan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/07 16:43:02 by vmorvan           #+#    #+#              #
-#    Updated: 2017/03/08 03:53:31 by vmorvan          ###   ########.fr        #
+#    Updated: 2017/04/02 02:21:49 by vmorvan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,10 +81,10 @@ OFILE=$(SOURCE:.c=.o)
 
 all: $(NAME) $(SOURCE)
 $(NAME): $(OFILE)
-	@echo "${WARN_COLOR}Libft:${NO_COLOR} Create library -> ${OK_COLOR}$(NAME)${NO_COLOR}"
+	@printf "\n${WARN_COLOR}Libft:${NO_COLOR} Create library -> ${OK_COLOR}$(NAME)${NO_COLOR}\n"
 	@ar rc $(NAME) $(OFILE)
 .c.o:
-	@echo "${WARN_COLOR}Libft:${NO_COLOR} Compile -> ${WARN_COLOR}$<${NO_COLOR} => ${OK_COLOR}$@${NO_COLOR}"
+	@printf "${WARN_COLOR}Libft:${NO_COLOR} Compile -> ${WARN_COLOR}$<${NO_COLOR} => ${OK_COLOR}$@${NO_COLOR}\033[K\r"
 	@gcc -c $< -o $@ -Wall -Werror -Wextra
 clean:
 	@echo "${WARN_COLOR}Libft:${NO_COLOR} ${ERROR_COLOR}Delete${NO_COLOR} -> objects files."

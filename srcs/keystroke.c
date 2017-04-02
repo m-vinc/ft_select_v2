@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 21:52:51 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/04/01 17:02:45 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/04/02 01:06:41 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,10 @@ void		h_keystroke(t_env *env)
 	if (read(0, buf, 3) != -1)
 	{
 		if (buf[0] == 27)
-		{
 			if ((*env).search.enable != 1)
 				escape(buf, env);
 			else
 				escape_search(buf, env);
-		}
 		else if (buf[0] == 127)
 			if ((*env).search.enable == 1)
 				search_backspace(env);
@@ -133,5 +131,7 @@ void		h_keystroke(t_env *env)
 			submit(env);
 		else if (ft_isprint(buf[0]) || buf[0] == 6)
 			search_add(env, buf);
+		else if (buf[0] == '\x05')
+			infomark(env);
 	}
 }
